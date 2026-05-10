@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>La Jaiba Gastrobar – Menú QR</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ocean-deep: #0a1628;
+      --ocean-teal: #0d4f6b;
+      --seafoam:    #1a8fa0;
+      --gold:       #c9a84c;
+      --gold-light: #e8c96a;
+      --cream:      #f5ede0;
+      --coral:      #e05c3a;
+      --white:      #ffffff;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      background: var(--ocean-deep);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
+
+    .ocean-bg {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(13,79,107,.55) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(26,143,160,.30) 0%, transparent 55%),
+        linear-gradient(160deg,#061020 0%,#0a1628 40%,#0e2a45 70%,#091522 100%);
+    }
+
+    .wave-layer {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: 200px; z-index: 0; opacity: .18;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 200'%3E%3Cpath fill='%231a8fa0' d='M0,100 C240,160 480,40 720,100 C960,160 1200,40 1440,100 L1440,200 L0,200 Z'/%3E%3C/svg%3E") repeat-x bottom;
+      animation: waveDrift 8s ease-in-out infinite alternate;
+    }
+    .wave-layer:nth-child(3) {
+      height: 150px; opacity: .10;
+      animation-duration: 11s; animation-direction: alternate-reverse;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 200'%3E%3Cpath fill='%23c9a84c' d='M0,120 C360,40 720,180 1080,80 C1260,40 1350,140 1440,120 L1440,200 L0,200 Z'/%3E%3C/svg%3E");
+    }
+    @keyframes waveDrift {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-60px); }
+    }
+
+    .bubbles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .bubble {
+      position: absolute; border-radius: 50%;
+      background: rgba(26,143,160,.12);
+      border: 1px solid rgba(201,168,76,.15);
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(1); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: .4; }
+      100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+    }
+
+    .page {
+      position: relative; z-index: 1; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 40px 20px 80px; gap: 0;
+    }
+
+    /* Header */
+    .header { text-align: center; margin-bottom: 44px; animation: fadeDown 1s ease both; }
+    .crab-icon {
+      font-size: 3rem; display: block; margin-bottom: 8px;
+      filter: drop-shadow(0 0 18px rgba(224,92,58,.6));
+      animation: crabPulse 3s ease-in-out infinite;
+    }
+    @keyframes crabPulse {
+      0%,100% { transform: scale(1) rotate(-3deg); }
+      50%      { transform: scale(1.08) rotate(3deg); }
+    }
+    .brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem,9vw,5.5rem); font-weight: 700;
+      letter-spacing: .06em; color: var(--white);
+      text-shadow: 0 0 40px rgba(201,168,76,.4), 0 4px 20px rgba(0,0,0,.5);
+      line-height: 1;
+    }
+    .brand-sub {
+      font-weight: 300; font-size: clamp(.85rem,2.5vw,1.1rem);
+      letter-spacing: .45em; text-transform: uppercase;
+      color: var(--gold); margin-top: 6px;
+    }
+    .divider { display: flex; align-items: center; gap: 14px; margin: 18px auto; width: fit-content; }
+    .divider-line { width: 70px; height: 1px; background: linear-gradient(to right, transparent, var(--gold)); }
+    .divider-line.r { background: linear-gradient(to left, transparent, var(--gold)); }
+    .divider-anchor { color: var(--gold); font-size: 1rem; }
+    .tagline { font-style: italic; font-size: clamp(.95rem,2.5vw,1.2rem); color: rgba(245,237,224,.65); letter-spacing: .04em; }
+
+    /* QR Card */
+    .qr-card {
+      position: relative;
+      background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+      border: 1px solid rgba(201,168,76,.3); border-radius: 24px;
+      padding: 44px 52px;
+      display: flex; flex-direction: column; align-items: center; gap: 28px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 0 1px rgba(201,168,76,.08), 0 20px 60px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);
+      animation: fadeUp 1.2s ease .3s both;
+      max-width: 440px; width: 100%;
+    }
+    .qr-card::before, .qr-card::after {
+      content: ''; position: absolute;
+      width: 24px; height: 24px;
+      border-color: var(--gold); border-style: solid; opacity: .5;
+    }
+    .qr-card::before { top: 14px; left: 14px; border-width: 2px 0 0 2px; border-radius: 4px 0 0 0; }
+    .qr-card::after  { bottom: 14px; right: 14px; border-width: 0 2px 2px 0; border-radius: 0 0 4px 0; }
+
+    .card-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold-light); letter-spacing: .08em; text-align: center; }
+
+    .qr-wrapper {
+      position: relative; padding: 16px;
+      background: var(--white); border-radius: 16px;
+      box-shadow: 0 0 0 4px rgba(201,168,76,.25), 0 8px 32px rgba(0,0,0,.4);
+    }
+    #qrcode { display: block; border-radius: 6px; overflow: hidden; }
+    #qrcode canvas, #qrcode img { display: block; border-radius: 6px; }
+
+    .qr-hint { font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(245,237,224,.45); text-align: center; }
+
+    .scan-cta {
+      display: flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+      background-size: 200% 100%;
+      color: var(--ocean-deep);
+      font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: 14px 34px; border-radius: 50px; border: none;
+      cursor: pointer; text-decoration: none;
+      transition: background-position .4s, transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 20px rgba(201,168,76,.35);
+    }
+    .scan-cta:hover { background-position: right center; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,168,76,.5); }
+
+    .scan-ring {
+      position: absolute; inset: -8px; border-radius: 22px;
+      border: 2px solid transparent;
+      background: linear-gradient(var(--white), var(--white)) padding-box,
+                  linear-gradient(90deg, var(--gold), var(--seafoam), var(--gold)) border-box;
+      animation: rotateBorder 4s linear infinite; opacity: .6;
+    }
+    @keyframes rotateBorder {
+      0%   { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    .footer-note { margin-top: 48px; text-align: center; font-size: .82rem; color: rgba(245,237,224,.3); letter-spacing: .1em; animation: fadeUp 1.4s ease .7s both; }
+    .footer-note span { color: var(--coral); }
+
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeUp   { from { opacity: 0; transform: translateY(30px);  } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 480px) { .qr-card { padding: 30px 24px; } }
+  </style>
+</head>
+<body>
+
+<div class="ocean-bg"></div>
+<div class="wave-layer"></div>
+<div class="wave-layer"></div>
+<div class="bubbles" id="bubbles"></div>
+
+<main class="page">
+
+  <header class="header">
+    <span class="crab-icon">🦀</span>
+    <h1 class="brand-name">La Jaiba</h1>
+    <p class="brand-sub">Gastrobar</p>
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-anchor">⚓</span>
+      <span class="divider-line r"></span>
+    </div>
+    <p class="tagline">Tradición marina con el mejor sazón</p>
+  </header>
+
+  <div class="qr-card">
+    <p class="card-title">Escanea y descubre<br>nuestro menú completo</p>
+
+    <div class="qr-wrapper">
+      <div class="scan-ring"></div>
+      <div id="qrcode"></div>
+    </div>
+
+    <p class="qr-hint">Apunta tu cámara al código QR</p>
+
+    <a id="menu-link" class="scan-cta" href="menu.html" target="_blank">
+      🦀 &nbsp;Ver Menú
+    </a>
+  </div>
+
+  <p class="footer-note">
+    <span>🦀</span> &nbsp;La Jaiba Gastrobar &nbsp;·&nbsp; Menú digital &nbsp;<span>🦀</span>
+  </p>
+
+</main>
+
+<script>
+  // Bubbles
+  const bc = document.getElementById('bubbles');
+  for (let i = 0; i < 22; i++) {
+    const b = document.createElement('div');
+    b.className = 'bubble';
+    const s = Math.random() * 18 + 5;
+    b.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:-${s}px;animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*10}s;`;
+    bc.appendChild(b);
+  }
+
+  // QR Code – apunta al menú digital HTML
+  const MENU_URL = "menu.html";
+  document.getElementById('menu-link').href = MENU_URL;
+
+  new QRCode(document.getElementById("qrcode"), {
+    text: window.location.origin + window.location.pathname.replace('menu_qr_lajaiba.html', '') + MENU_URL,
+    width: 220,
+    height: 220,
+    colorDark:  "#0a1628",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+</script>
+
+</body>
+</html>
