@@ -4,18 +4,22 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>La Jaiba Gastrobar – Menú</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --ocean-deep: #0a1628;
-      --seafoam:    #1a8fa0;
-      --gold:       #c9a84c;
-      --gold-light: #e8c96a;
-      --cream:      #f5ede0;
-      --coral:      #e05c3a;
-      --white:      #ffffff;
+      --ocean-deep:  #050d1a;
+      --ocean-mid:   #091525;
+      --seafoam:     #1a8fa0;
+      --gold:        #c9a84c;
+      --gold-light:  #e8c96a;
+      --gold-dim:    rgba(201,168,76,.18);
+      --cream:       #f5ede0;
+      --coral:       #e05c3a;
+      --white:       #ffffff;
+      --glass:       rgba(255,255,255,.04);
+      --glass-border:rgba(201,168,76,.22);
     }
 
     html { scroll-behavior: smooth; }
@@ -28,200 +32,358 @@
       overflow-x: hidden;
     }
 
-    /* Ocean background */
+    /* ── Background ── */
     .ocean-bg {
       position: fixed; inset: 0; z-index: 0;
       background:
-        radial-gradient(ellipse at 20% 80%, rgba(13,79,107,.45) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(26,143,160,.25) 0%, transparent 55%),
-        linear-gradient(160deg,#061020 0%,#0a1628 45%,#0e2a45 70%,#091522 100%);
+        radial-gradient(ellipse 80% 60% at 15% 85%, rgba(13,79,107,.55) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 50% at 85% 15%, rgba(26,143,160,.28) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 35% at 50% 50%, rgba(201,168,76,.04) 0%, transparent 55%),
+        linear-gradient(175deg,#030a14 0%,#07111f 35%,#0d2035 65%,#070f1c 100%);
     }
 
-    /* Bubbles */
-    .bubbles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
-    .bubble {
+    /* ── Particles ── */
+    .particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    .particle {
       position: absolute; border-radius: 50%;
-      background: rgba(26,143,160,.10);
-      border: 1px solid rgba(201,168,76,.12);
       animation: floatUp linear infinite;
     }
+    .particle.bubble {
+      background: rgba(26,143,160,.08);
+      border: 1px solid rgba(201,168,76,.1);
+    }
+    .particle.sparkle {
+      background: radial-gradient(circle, rgba(201,168,76,.7) 0%, transparent 70%);
+    }
     @keyframes floatUp {
-      0%   { transform: translateY(0); opacity: 0; }
-      10%  { opacity: .7; }
-      90%  { opacity: .2; }
-      100% { transform: translateY(-100vh); opacity: 0; }
+      0%   { transform: translateY(0) scale(1); opacity: 0; }
+      8%   { opacity: 1; }
+      92%  { opacity: .3; }
+      100% { transform: translateY(-100vh) scale(.6); opacity: 0; }
     }
 
-    /* Page wrapper */
+    /* ── Page wrapper ── */
     .page {
       position: relative; z-index: 1;
-      max-width: 860px; margin: 0 auto;
-      padding: 0 12px 60px;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 16px 80px;
     }
 
-    /* Hero */
+    /* ── Hero ── */
     .hero {
       text-align: center;
-      padding: 48px 16px 36px;
-      animation: fadeDown .8s ease both;
+      padding: 56px 20px 44px;
+      animation: fadeDown .9s cubic-bezier(.22,.68,0,1.2) both;
     }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(201,168,76,.1);
+      border: 1px solid rgba(201,168,76,.3);
+      border-radius: 50px;
+      padding: 6px 20px;
+      font-family: 'Lato', sans-serif;
+      font-size: .68rem; font-weight: 300;
+      letter-spacing: .35em; text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 24px;
+    }
+
     .crab-icon {
-      font-size: 2.8rem; display: block; margin-bottom: 8px;
-      filter: drop-shadow(0 0 16px rgba(224,92,58,.6));
-      animation: crabPulse 3s ease-in-out infinite;
+      font-size: 3.2rem; display: block; margin-bottom: 12px;
+      filter: drop-shadow(0 0 20px rgba(224,92,58,.7)) drop-shadow(0 0 40px rgba(224,92,58,.3));
+      animation: crabPulse 3.5s ease-in-out infinite;
     }
     @keyframes crabPulse {
-      0%,100% { transform: scale(1) rotate(-3deg); }
-      50%      { transform: scale(1.08) rotate(3deg); }
+      0%,100% { transform: scale(1) rotate(-4deg); }
+      50%      { transform: scale(1.1) rotate(4deg); }
     }
+
     .brand-name {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem,7vw,4.5rem); font-weight: 700;
-      letter-spacing: .06em; color: var(--white);
-      text-shadow: 0 0 36px rgba(201,168,76,.4), 0 4px 16px rgba(0,0,0,.5);
+      font-size: clamp(2.8rem,8vw,5.5rem); font-weight: 700;
+      letter-spacing: .04em; color: var(--white);
+      text-shadow:
+        0 0 60px rgba(201,168,76,.35),
+        0 0 120px rgba(201,168,76,.15),
+        0 6px 24px rgba(0,0,0,.6);
       line-height: 1;
     }
+
     .brand-sub {
-      font-weight: 300; font-size: clamp(.8rem,2.2vw,1rem);
-      letter-spacing: .45em; text-transform: uppercase;
-      color: var(--gold); margin-top: 6px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 300; font-size: clamp(.75rem,2.2vw,.95rem);
+      letter-spacing: .55em; text-transform: uppercase;
+      color: var(--gold); margin-top: 8px;
+      opacity: .85;
     }
+
     .divider {
-      display: flex; align-items: center; gap: 14px;
-      margin: 16px auto; width: fit-content;
+      display: flex; align-items: center; gap: 16px;
+      margin: 22px auto 18px; width: fit-content;
     }
-    .divider-line { width: 60px; height: 1px; background: linear-gradient(to right, transparent, var(--gold)); }
+    .divider-line {
+      width: 80px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
     .divider-line.r { background: linear-gradient(to left, transparent, var(--gold)); }
-    .anchor { color: var(--gold); }
+    .divider-icon { color: var(--gold); font-size: 1rem; opacity: .8; }
+
     .tagline {
-      font-style: italic; font-size: clamp(.9rem,2.2vw,1.1rem);
-      color: rgba(245,237,224,.55); letter-spacing: .04em;
+      font-style: italic; font-size: clamp(.9rem,2.5vw,1.15rem);
+      color: rgba(245,237,224,.5); letter-spacing: .06em;
     }
 
-    /* Menu images */
-    .menu-pages {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      animation: fadeUp .9s ease .2s both;
-    }
-
-    .menu-page-wrap {
-      position: relative;
-      border-radius: 18px;
+    /* ── Stats bar ── */
+    .stats-bar {
+      display: flex; justify-content: center; gap: 0;
+      margin: 32px 0 0;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
       overflow: hidden;
-      border: 1px solid rgba(201,168,76,.28);
-      box-shadow:
-        0 0 0 1px rgba(201,168,76,.06),
-        0 16px 48px rgba(0,0,0,.55);
-      transition: transform .25s, box-shadow .25s;
+      backdrop-filter: blur(12px);
+      animation: fadeUp .8s ease .3s both;
     }
-    .menu-page-wrap:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 24px 64px rgba(0,0,0,.65);
+    .stat {
+      flex: 1; padding: 18px 10px;
+      text-align: center;
+      border-right: 1px solid var(--glass-border);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; color: var(--gold-light);
+      display: block; line-height: 1;
+    }
+    .stat-lbl {
+      font-family: 'Lato', sans-serif;
+      font-size: .62rem; letter-spacing: .2em;
+      text-transform: uppercase; color: rgba(245,237,224,.35);
+      margin-top: 4px; display: block;
     }
 
-    .page-label {
-      position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
-      background: rgba(10,22,40,.75);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(201,168,76,.35);
-      border-radius: 50px;
-      padding: 5px 20px;
-      font-size: .72rem; letter-spacing: .2em;
-      text-transform: uppercase; color: var(--gold-light);
-      white-space: nowrap;
+    /* ── Section header ── */
+    .section-header {
+      display: flex; align-items: center; gap: 16px;
+      margin: 52px 0 24px;
+      animation: fadeUp .7s ease .4s both;
+    }
+    .section-line { flex: 1; height: 1px; background: linear-gradient(to right, rgba(201,168,76,.3), transparent); }
+    .section-line.r { background: linear-gradient(to left, rgba(201,168,76,.3), transparent); }
+    .section-title {
+      font-family: 'Lato', sans-serif;
+      font-size: .7rem; letter-spacing: .3em;
+      text-transform: uppercase; color: var(--gold);
+    }
+
+    /* ── Menu pages ── */
+    .menu-pages {
+      display: flex; flex-direction: column; gap: 28px;
+      animation: fadeUp .9s ease .5s both;
+    }
+
+    .menu-card {
+      position: relative;
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      box-shadow:
+        0 0 0 1px rgba(201,168,76,.04),
+        0 20px 60px rgba(0,0,0,.6),
+        inset 0 1px 0 rgba(255,255,255,.05);
+      transition: transform .3s cubic-bezier(.22,.68,0,1.2), box-shadow .3s;
+    }
+    .menu-card:hover {
+      transform: translateY(-6px);
+      box-shadow:
+        0 0 0 1px rgba(201,168,76,.12),
+        0 32px 80px rgba(0,0,0,.7),
+        0 0 60px rgba(201,168,76,.06),
+        inset 0 1px 0 rgba(255,255,255,.07);
+    }
+
+    /* Glow accent top-left corner */
+    .menu-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      opacity: .6; z-index: 2;
+    }
+
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px 14px;
+      border-bottom: 1px solid rgba(201,168,76,.12);
+    }
+    .page-num {
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: 1.1rem;
+      color: var(--gold-light); opacity: .7;
+    }
+    .page-cats {
+      font-family: 'Lato', sans-serif;
+      font-size: .65rem; letter-spacing: .18em;
+      text-transform: uppercase; color: rgba(245,237,224,.4);
+      text-align: right;
+    }
+
+    .img-wrapper {
+      position: relative; overflow: hidden;
+      cursor: zoom-in;
+    }
+    .img-wrapper::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 60%, rgba(5,13,26,.5) 100%);
+      pointer-events: none;
     }
 
     .menu-img {
-      display: block;
-      width: 100%;
-      height: auto;
+      display: block; width: 100%; height: auto;
+      transition: transform .5s cubic-bezier(.22,.68,0,1.2);
     }
+    .menu-card:hover .menu-img { transform: scale(1.015); }
 
-    /* Zoom button */
     .zoom-btn {
-      position: absolute; bottom: 14px; right: 14px;
-      background: rgba(10,22,40,.8);
-      backdrop-filter: blur(8px);
+      position: absolute; bottom: 16px; right: 16px; z-index: 3;
+      display: flex; align-items: center; gap: 7px;
+      background: rgba(5,13,26,.82);
+      backdrop-filter: blur(12px);
       border: 1px solid rgba(201,168,76,.4);
       border-radius: 50px;
-      color: var(--gold);
-      font-size: .75rem; letter-spacing: .1em;
-      padding: 6px 14px;
+      color: var(--gold-light);
+      font-family: 'Lato', sans-serif;
+      font-size: .7rem; letter-spacing: .12em; font-weight: 400;
+      padding: 8px 16px;
       cursor: pointer; text-decoration: none;
-      transition: background .2s;
+      transition: background .2s, border-color .2s, color .2s;
     }
-    .zoom-btn:hover { background: rgba(201,168,76,.2); }
+    .zoom-btn:hover {
+      background: rgba(201,168,76,.22);
+      border-color: rgba(201,168,76,.7);
+      color: var(--white);
+    }
+    .zoom-icon { font-size: .9rem; }
 
-    /* Lightbox */
+    /* ── Lightbox ── */
     .lightbox {
       display: none;
-      position: fixed; inset: 0; z-index: 999;
-      background: rgba(6,16,32,.96);
-      backdrop-filter: blur(8px);
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(3,8,16,.96);
+      backdrop-filter: blur(16px);
       align-items: center; justify-content: center;
       padding: 16px;
       cursor: zoom-out;
     }
-    .lightbox.open { display: flex; animation: fadeIn .2s ease; }
+    .lightbox.open { display: flex; animation: fadeIn .25s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    .lightbox img {
-      max-width: min(90vw, 700px);
-      max-height: 92vh;
-      border-radius: 12px;
-      box-shadow: 0 0 80px rgba(0,0,0,.8);
+
+    .lb-img-wrap {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 100px rgba(0,0,0,.9), 0 0 0 1px rgba(201,168,76,.15);
       cursor: default;
     }
+    .lightbox img {
+      max-width: min(92vw, 720px);
+      max-height: 90vh;
+      display: block;
+    }
+
     .lightbox-close {
       position: fixed; top: 20px; right: 20px;
-      background: rgba(201,168,76,.15);
-      border: 1px solid rgba(201,168,76,.4);
-      color: var(--gold-light);
-      font-size: 1.4rem; width: 44px; height: 44px;
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: background .2s;
-    }
-    .lightbox-close:hover { background: rgba(201,168,76,.35); }
-    .lightbox-arrows {
-      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
-      display: flex; gap: 16px;
-    }
-    .lb-arrow {
-      background: rgba(201,168,76,.15);
+      background: rgba(201,168,76,.12);
       border: 1px solid rgba(201,168,76,.35);
       color: var(--gold-light);
-      font-size: .9rem; padding: 8px 20px; border-radius: 50px;
-      cursor: pointer; transition: background .2s; letter-spacing: .08em;
+      font-size: 1.2rem; width: 46px; height: 46px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .2s, transform .2s;
+      backdrop-filter: blur(8px);
     }
-    .lb-arrow:hover { background: rgba(201,168,76,.3); }
+    .lightbox-close:hover { background: rgba(201,168,76,.3); transform: rotate(90deg); }
 
-    /* Footer */
+    .lb-counter {
+      position: fixed; top: 26px; left: 50%; transform: translateX(-50%);
+      font-family: 'Lato', sans-serif;
+      font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(201,168,76,.6); background: rgba(5,13,26,.7);
+      padding: 6px 18px; border-radius: 50px;
+      border: 1px solid rgba(201,168,76,.15);
+      backdrop-filter: blur(8px);
+    }
+
+    .lightbox-arrows {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 12px;
+    }
+    .lb-arrow {
+      background: rgba(5,13,26,.8);
+      border: 1px solid rgba(201,168,76,.35);
+      color: var(--gold-light);
+      font-family: 'Lato', sans-serif;
+      font-size: .78rem; letter-spacing: .1em;
+      padding: 10px 24px; border-radius: 50px;
+      cursor: pointer; transition: background .2s, border-color .2s;
+      backdrop-filter: blur(8px);
+    }
+    .lb-arrow:hover { background: rgba(201,168,76,.2); border-color: rgba(201,168,76,.6); }
+
+    /* ── Footer ── */
     .footer {
-      text-align: center; margin-top: 52px;
-      padding: 28px 16px;
-      border-top: 1px solid rgba(201,168,76,.14);
-      font-size: .82rem; color: rgba(245,237,224,.28);
-      letter-spacing: .1em;
+      text-align: center; margin-top: 64px;
+      padding: 36px 20px 28px;
+      border-top: 1px solid rgba(201,168,76,.1);
     }
-    .footer span { color: var(--coral); }
+    .footer-crab { font-size: 1.5rem; display: block; margin-bottom: 12px; opacity: .6; }
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; color: var(--gold);
+      letter-spacing: .08em;
+    }
+    .footer-sep { color: rgba(201,168,76,.3); margin: 0 10px; }
+    .footer-tagline {
+      font-style: italic;
+      font-size: .85rem; color: rgba(245,237,224,.25);
+      letter-spacing: .04em; margin-top: 6px; display: block;
+    }
+    .footer-thanks {
+      font-family: 'Lato', sans-serif;
+      font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(245,237,224,.18); margin-top: 18px;
+    }
 
-    @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeUp   { from { opacity: 0; transform: translateY(20px);  } to { opacity: 1; transform: translateY(0); } }
+    /* ── Animations ── */
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-28px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeUp   { from { opacity: 0; transform: translateY(28px);  } to { opacity: 1; transform: translateY(0); } }
+
+    /* ── Mobile ── */
+    @media (max-width: 520px) {
+      .stats-bar { gap: 0; }
+      .stat { padding: 14px 6px; }
+      .stat-num { font-size: 1.3rem; }
+      .card-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+      .page-cats { text-align: left; }
+    }
   </style>
 </head>
 <body>
 
 <div class="ocean-bg"></div>
-<div class="bubbles" id="bubbles"></div>
+<div class="particles" id="particles"></div>
 
 <!-- Lightbox -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
   <button class="lightbox-close" onclick="closeLightboxDirect()">✕</button>
-  <img id="lb-img" src="" alt="Menú"/>
+  <div class="lb-counter" id="lb-counter">1 / 2</div>
+  <div class="lb-img-wrap" onclick="event.stopPropagation()">
+    <img id="lb-img" src="" alt="Menú La Jaiba"/>
+  </div>
   <div class="lightbox-arrows">
     <button class="lb-arrow" onclick="lbNav(-1); event.stopPropagation()">← Anterior</button>
-    <button class="lb-arrow" onclick="lbNav(1); event.stopPropagation()">Siguiente →</button>
+    <button class="lb-arrow" onclick="lbNav(1);  event.stopPropagation()">Siguiente →</button>
   </div>
 </div>
 
@@ -229,59 +391,124 @@
 
   <!-- Hero -->
   <header class="hero">
+    <div class="hero-badge">✦ Menú Digital ✦</div>
     <span class="crab-icon">🦀</span>
     <h1 class="brand-name">La Jaiba</h1>
     <p class="brand-sub">Gastrobar</p>
     <div class="divider">
       <span class="divider-line"></span>
-      <span class="anchor">⚓</span>
+      <span class="divider-icon">⚓</span>
       <span class="divider-line r"></span>
     </div>
     <p class="tagline">Tradición marina con el mejor sazón</p>
+
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-num">🦞</span>
+        <span class="stat-lbl">Mariscos frescos</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">🍕</span>
+        <span class="stat-lbl">Pizzas artesanales</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">🍹</span>
+        <span class="stat-lbl">Cócteles & licores</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">🥘</span>
+        <span class="stat-lbl">Paellas & cazuelas</span>
+      </div>
+    </div>
   </header>
+
+  <!-- Section label -->
+  <div class="section-header">
+    <span class="section-line"></span>
+    <span class="section-title">Nuestro Menú</span>
+    <span class="section-line r"></span>
+  </div>
 
   <!-- Menu pages -->
   <div class="menu-pages">
 
-    <div class="menu-page-wrap">
-      <span class="page-label">Página 1 · Entradas · Sancochos · Cazuelas · Paellas · Pescados</span>
-      <img class="menu-img" src="" alt="Menú La Jaiba – Página 1" onclick="openLightbox(0)"/>
-      <button class="zoom-btn" onclick="openLightbox(0)">🔍 Ver completo</button>
+    <div class="menu-card">
+      <div class="card-header">
+        <span class="page-num">Página 01</span>
+        <span class="page-cats">Entradas · Sancochos · Cazuelas<br>Paellas · Pescados</span>
+      </div>
+      <div class="img-wrapper">
+        <img class="menu-img"
+             src="MENU ACTUALIZADO 1.jpeg"
+             alt="Menú La Jaiba – Página 1"
+             onclick="openLightbox(0)"/>
+        <button class="zoom-btn" onclick="openLightbox(0)">
+          <span class="zoom-icon">🔍</span> Ver completo
+        </button>
+      </div>
     </div>
 
-    <div class="menu-page-wrap">
-      <span class="page-label">Página 2 · Pizzas · Bebidas · Licores · Cócteles</span>
-      <img class="menu-img" src="" alt="Menú La Jaiba – Página 2" onclick="openLightbox(1)"/>
-      <button class="zoom-btn" onclick="openLightbox(1)">🔍 Ver completo</button>
+    <div class="menu-card">
+      <div class="card-header">
+        <span class="page-num">Página 02</span>
+        <span class="page-cats">Pizzas · Bebidas · Licores<br>Cócteles</span>
+      </div>
+      <div class="img-wrapper">
+        <img class="menu-img"
+             src="MENU ACTUALIZADO 2.jpeg"
+             alt="Menú La Jaiba – Página 2"
+             onclick="openLightbox(1)"/>
+        <button class="zoom-btn" onclick="openLightbox(1)">
+          <span class="zoom-icon">🔍</span> Ver completo
+        </button>
+      </div>
     </div>
 
   </div>
 
+  <!-- Footer -->
   <footer class="footer">
-    <span>🦀</span> &nbsp;La Jaiba Gastrobar &nbsp;·&nbsp; Tradición marina con el mejor sazón &nbsp;<span>🦀</span>
-    <br><br>¡Gracias por preferirnos!
+    <span class="footer-crab">🦀</span>
+    <div>
+      <span class="footer-brand">La Jaiba</span>
+      <span class="footer-sep">·</span>
+      <span class="footer-brand">Gastrobar</span>
+    </div>
+    <span class="footer-tagline">Tradición marina con el mejor sazón</span>
+    <p class="footer-thanks">¡Gracias por preferirnos!</p>
   </footer>
 
 </div>
 
 <script>
-  // Bubbles
-  const bc = document.getElementById('bubbles');
-  for (let i = 0; i < 18; i++) {
-    const b = document.createElement('div');
-    b.className = 'bubble';
-    const s = Math.random() * 14 + 4;
-    b.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;bottom:-${s}px;animation-duration:${Math.random()*14+8}s;animation-delay:${Math.random()*10}s;`;
-    bc.appendChild(b);
+  // Particles (bubbles + sparkles)
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    const isSpark = Math.random() < .25;
+    p.className = 'particle ' + (isSpark ? 'sparkle' : 'bubble');
+    const s = isSpark ? Math.random() * 3 + 1 : Math.random() * 16 + 4;
+    p.style.cssText = `
+      width:${s}px;height:${s}px;
+      left:${Math.random()*100}%;
+      bottom:-${s + 10}px;
+      animation-duration:${Math.random()*16+9}s;
+      animation-delay:${Math.random()*12}s;
+    `;
+    container.appendChild(p);
   }
 
   // Lightbox
   const pages = ['MENU ACTUALIZADO 1.jpeg', 'MENU ACTUALIZADO 2.jpeg'];
   let current = 0;
 
+  function updateLbCounter() {
+    document.getElementById('lb-counter').textContent = `${current + 1} / ${pages.length}`;
+  }
   function openLightbox(idx) {
     current = idx;
     document.getElementById('lb-img').src = pages[current];
+    updateLbCounter();
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -295,11 +522,14 @@
   function lbNav(dir) {
     current = (current + dir + pages.length) % pages.length;
     document.getElementById('lb-img').src = pages[current];
+    updateLbCounter();
   }
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeLightboxDirect();
-    if (e.key === 'ArrowRight') lbNav(1);
-    if (e.key === 'ArrowLeft') lbNav(-1);
+    const lb = document.getElementById('lightbox');
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape')      closeLightboxDirect();
+    if (e.key === 'ArrowRight')  lbNav(1);
+    if (e.key === 'ArrowLeft')   lbNav(-1);
   });
 </script>
 </body>
